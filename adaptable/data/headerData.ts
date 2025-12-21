@@ -1,9 +1,7 @@
-import logo from "../public/img/logo.png"
 import account from "../public/img/Account.png"
 
 export const headerData = {
   logo: {
-    image: logo,
     alt: "autism society logo"
   },
 

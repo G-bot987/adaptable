@@ -1,72 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Image from "next/image";
-import Navbar from './navbar/Navbar';
-import { StaticImageData } from "next/image"
-import styles from './Header.module.scss'
-import { newBookingInterface } from '../../../interfaces/headerInterfaces/header.interfaces';
-
+import Navbar from "./navbar/Navbar";
+import { StaticImageData } from "next/image";
+import styles from "./Header.module.scss";
+import { newBookingInterface } from "../../../interfaces/headerInterfaces/header.interfaces";
 
 interface headerDataInterface {
-    headerData: {
-        logo: logoInterface
-        newBooking: newBookingInterface
-        navbar: string[]
-        breadCrumbs: string[]
-        title: string
-        assessmentBtn: assessmentBtnInterface
-    }
-}
-
-interface logoInterface {
-    image: StaticImageData,
-    alt: string,
+  headerData: {
+    newBooking: newBookingInterface;
+    navbar: string[];
+    breadCrumbs: string[];
+    title: string;
+    assessmentBtn: assessmentBtnInterface;
+  };
 }
 
 interface assessmentBtnInterface {
-    text: string
+  text: string;
 }
 
-
 export default function Header(props: headerDataInterface) {
+  const { newBooking, navbar, breadCrumbs, title, assessmentBtn } =
+    props.headerData || {};
 
-    const { newBooking, navbar, breadCrumbs, title, assessmentBtn } = props.headerData || {};
-    const { image, alt } = props.headerData?.logo || {};
+  const [navSelected, SetNavSelected] = useState("Patients");
 
-    const [navSelected, SetNavSelected] = useState('Patients')
-
-    return (
-        <section className={styles.header}>
-            <section className={styles.header__upper}>
-                <div className={styles.header__upper__logo}>
-                    <Image src={image} alt={alt} />
-                </div>
-                <Navbar {...{ navbar, navSelected, SetNavSelected, newBooking }} />
-            </section>
-            <section className={styles.header__lower}>
-                <ul className={styles.header__lower__breadCrumbs}>
-                    {breadCrumbs?.map((crumb: string, index: number) => (
-                        <li key={index} className={`${styles.header__lower__breadCrumbs__container} ${index + 1 === breadCrumbs.length ? styles['header__lower__breadCrumbs__container--last'] : ''}`}>
-                            <button className={styles.header__lower__breadCrumbs__container__btn}>
-                                {crumb}
-                            </button>
-                            {index < breadCrumbs.length - 1 && (
-                                <div className={styles.header__lower__breadCrumbs__container__arrowContainer}>
-                                    <div className={styles.header__lower__breadCrumbs__container__arrowContainer__arrow}></div>
-                                </div>
-                            )}
-                        </li>
-                    ))
+  return (
+    <section className={styles.header}>
+      <section className={styles.header__upper}>
+        <div className={styles.header__upper__logo}></div>
+        <Navbar {...{ navbar, navSelected, SetNavSelected, newBooking }} />
+      </section>
+      <section className={styles.header__lower}>
+        <ul className={styles.header__lower__breadCrumbs}>
+          {breadCrumbs?.map((crumb: string, index: number) => (
+            <li
+              key={index}
+              className={`${styles.header__lower__breadCrumbs__container} ${
+                index + 1 === breadCrumbs.length
+                  ? styles["header__lower__breadCrumbs__container--last"]
+                  : ""
+              }`}
+            >
+              <button
+                className={styles.header__lower__breadCrumbs__container__btn}
+              >
+                {crumb}
+              </button>
+              {index < breadCrumbs.length - 1 && (
+                <div
+                  className={
+                    styles.header__lower__breadCrumbs__container__arrowContainer
+                  }
+                >
+                  <div
+                    className={
+                      styles.header__lower__breadCrumbs__container__arrowContainer__arrow
                     }
-                </ul>
+                  ></div>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
 
-                <h1 className={styles.header__lower__titleCard}>
-                    {title}
-                </h1>
+        <h1 className={styles.header__lower__titleCard}>{title}</h1>
 
-                <button className={styles.header__lower__assessmentBtn}>
-                    {assessmentBtn?.text}
-                </button>
-            </section>
-        </section>
-    )
+        <button className={styles.header__lower__assessmentBtn}>
+          {assessmentBtn?.text}
+        </button>
+      </section>
+    </section>
+  );
 }
